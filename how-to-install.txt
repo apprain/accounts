@@ -17,4 +17,3 @@ Method 2:
     4.	Copy "accounts" folder in “component” directory in your project
     5.	In Admin panel go to application tab and find new component
     6.	Click on Activate Link. 
-	
