@@ -1,0 +1,49 @@
+@import url(http://fonts.googleapis.com/css?family=Fjalla+One);
+
+body {
+  margin-top:50px;
+  padding-bottom: 40px;
+  color: #000;
+  font-family: Arial;
+  font-size:12px;
+  background: none repeat scroll 0 0 #F5F5F5;  
+}
+
+.navbar-default .navbar-nav > li > a,.navbar-default .navbar-brand,.list-group-item a {
+	font-family: "Fjalla One",Arial;
+	 color: #000;
+}
+
+.breadcrumb {
+    background-color: transparent;
+}
+
+.breadcrumb a{
+    color:#CCC;
+}
+
+.breadcrumb li.active{
+    color:#FFF
+}
+
+.list-group .active a{
+	 color: #FFF;
+}
+
+h1,h2,h3, h4,thead th, tfoot th{
+    font-family: "Fjalla One",Arial;
+    font-weight: normal;
+	
+}
+
+.huge{
+	font-size:80px
+}
+
+.top-title{
+    background-image: linear-gradient(to bottom, #428bca 0px, #3278b3 100%);
+    color: #FFFFFF;
+    padding: 20px 0;
+	margin-bottom:50px;
+	background-color:#428BCA
+}

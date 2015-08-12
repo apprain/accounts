@@ -1,0 +1,123 @@
+<html>
+	<head>
+		<title>Print Statement</title>
+		<style typte="text/css">
+			*{
+				font-family:Arial;
+				font-size:12px;
+			}
+		</style>
+	</head>
+	<body onload="<?php if(isset($_GET['print']) && $_GET['print']=='yes'):?>window.print()<?php endif;?>">
+		<?php if(!empty($List['data'])):?>
+		<table border="0" width="100%" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="60%">
+					<table border="0" width="100%" cellspacing="0" cellpadding="3">
+						<tr><th align="left" width="100">Name</th><td><?php echo $Account['name']; ?></td></tr>
+						<tr><th align="left">Date</th><td><?php echo App::Helper('Date')->dateFormated(null,'long'); ?></td></tr>
+						<tr><th align="left">Date Range</th><td><?php echo App::Helper('Date')->dateFormated($fromeDate); ?> to <?php echo App::Helper('Date')->dateFormated($toDate); ?></td></tr>
+					</table>
+				</td>
+				<td>
+				<?php if($pm=='statement'):?>					
+					<table border="0" width="100%" cellspacing="0" cellpadding="3">
+						<tr>
+							<th align="left" width="120">Previous Balance</th>
+								<td>
+									<?php 
+										echo App::Component('Accounts')
+											->Helper('Data')
+											->numberformate(
+												App::Component('Accounts')
+													->Helper('Data')
+													->PrevBalance($List['data'][0],$Account['no'])
+											);
+									?>
+								</td>
+						</tr>
+						<tr>
+							<th align="left">Current Balance</th>
+							<td>
+								<?php 
+									echo App::Component('Accounts')
+										->Helper('Data')
+										->numberformate(
+											App::Component('Accounts')
+												->Helper('Data')
+												->CurrentBalance($Account['no'])
+										);
+								?>
+							</td>
+						</tr>
+					</table>
+				<?php endif;?>	
+				</td>
+			</tr>
+		</table>
+		<br />
+
+		<!-- Statement Header -->
+		<table border="0" width="100%" cellspacing="0" cellpadding="3" style="border:1px solid #CCC">	
+		<tr style="background-color:#CCC">
+			<th align="center"  width="110">Date</th>
+			<th align="left">Description</th>
+			<th>Currency</th>
+			<th align="right">Amount</th>
+		</tr>
+		<?php
+			$t = 0;			
+				foreach($List['data'] as $key=>$row){
+					$t += $row['amount'];
+					$EntryCode = App::InformationSet('entrycode')->findByCode($row['code']);
+					
+					$sign = App::Component('Accounts')->Helper('Data')->txnDirection($row,$Account['no'],'SIGN');					
+                    $bgcolor = ($key%2==1) ? '#EEE' : '#FFF';
+                    $bgcolor2 = ($key%2==1) ? '#EEE' : '#FFF';                    
+                    $description = empty($row['fullremark'])? $row['fullremark'] : $EntryCode['name'];                    
+					echo "<tr>"	;	
+						echo "<td align=\"center\" style=\"background-color:{$bgcolor2}\">" . App::Helper("Date")->dateFormated($row['entrydate']) . "</td>";
+						echo "<td style=\"background-color:{$bgcolor}\">{$row['fullremark']}</td>";
+						echo "<td  style=\"background-color:{$bgcolor2}\" align=\"center\" width=\"20\">BDT</td>";		
+						echo "<td  style=\"background-color:{$bgcolor}\" align=\"right\">{$sign}" . App::Component('Accounts')->Helper('Data')->numberformate($row['amount']) . "</td>";
+					echo "</tr>";
+				}		
+
+				echo '<tr style="background-color:#CCC">
+						<th align="center"  width="100"></th><th></th><th>' . ($pm=='statement' ? 'Balance' : 'Total') . '</th><th align="right">';		
+						echo ($pm=='statement') 
+							?							
+								App::Component('Accounts')
+								->Helper('Data')
+								->numberformate(
+									App::Component('Accounts')
+										->Helper('Data')
+										->txnDirection($row,$Account['no'],'BALANCE')
+								)
+							:
+								App::Component('Accounts')
+								->Helper('Data')
+								->numberformate($t);
+				echo '	</th>
+					</tr>';							
+		?>			
+		</table>
+		<table border="0" height="170" width="90%" align="center">
+			<tr>
+				<td width="120">
+					<hr />
+					<strong>Prepared By<strong>
+				</td>
+				<td></td>
+				<td width="120">
+					<hr />
+					<strong>Authorized By<strong>
+				</td>
+				
+			</tr>	
+		</table>
+		<?php else:?>
+			<strong>No activity found</strong>
+		<?php endif;?>
+	</body>
+<html>
