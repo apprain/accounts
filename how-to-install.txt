@@ -17,3 +17,15 @@ Method 2:
     4.	Copy "accounts" folder in “component” directory in your project
     5.	In Admin panel go to application tab and find new component
     6.	Click on Activate Link. 
+    
+ Install Sample data:
+    We suggest you install sample data to understand the functionality easily.
+     
+    1. Go Preference > Database Expert
+    2. Go to Import Databse Operation 
+    3. Select "sample_data.sql"
+    4. Click on "Import" button
+    
+    
+Note: Install another component 'appReport' to view accounting report easily.
+    
